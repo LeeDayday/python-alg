@@ -11,7 +11,7 @@ def factorial_iterative(n):
 
 # 재귀함수로 구현
 def factorial_recursive(n):
-    if n == 1:
+    if n <= 1:
         return 1
     else:
         return n * factorial_recursive(n-1)
