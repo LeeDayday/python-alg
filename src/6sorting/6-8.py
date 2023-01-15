@@ -18,4 +18,4 @@ for i in range(k):
     else:
         break
 
-print(listA)
+print(sum(listA))
