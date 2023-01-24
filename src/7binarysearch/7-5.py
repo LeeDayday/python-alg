@@ -24,6 +24,5 @@ while (start <= end):
     else: # 적어도 m은 만족, 높이 최댓값이 목적
         result = mid
         start = mid + 1
-    print("i'm in while %d %d",(start, end))
 
 print(result)
