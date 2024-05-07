@@ -6,44 +6,40 @@ import sys
 from itertools import permutations
 input = sys.stdin.readline
 
+def dfs(i, now, numbers, n):
+    global min_result, max_result, add, sub, mul, div
 
-def solution(n, numbers, operations):
-    min_result = int(1e9)
-    max_result = -1 * int(1e9)
-    for operation in operations:
-        result = numbers[0]
-        for op_idx in range(0, len(operation)):
-            if operation[op_idx] == '+':
-                result += numbers[op_idx + 1]
-            elif operation[op_idx] == '-':
-                result -= numbers[op_idx + 1]
-            elif operation[op_idx] == 'x':
-                result *= numbers[op_idx + 1]
-            elif operation[op_idx] == '/':
-                if result < 0:
-                    result *= -1
-                    result //= numbers[op_idx + 1]
-                    result *= -1
-                else:
-                    result //= numbers[op_idx + 1]
-                
-        min_result = min(min_result, result)
-        max_result = max(max_result, result)
-
-    return max_result, min_result
+    # 모든 연산자를 다 사용한 경우, 최솟값과 최댓값 업데이트
+    if i == n:
+        min_result = min(min_result, now)
+        max_result = max(max_result, now)
+    else:
+        # 각 연산자에 대하여 재귀적으로 수행
+        if add > 0:
+            add -= 1
+            dfs(i+1, now + numbers[i], numbers, n)
+            add += 1
+        if sub > 0:
+            sub -= 1
+            dfs(i+1, now - numbers[i], numbers, n)
+        if mul > 0:
+            mul -= 1
+            dfs(i+1, now * numbers[i], numbers, n)
+            mul += 1
+        if div > 0:
+            div -= 1
+            dfs(i+1, int(now/numbers[i]), numbers, n)
+            div += 1
 
 if __name__ == '__main__':
     n = int(input())
     numbers = list(map(int, input().split()))
-    cmds = list(map(int, input().split()))
+    add, sub, mul, div = map(int, input().split())
 
-    operations = ['+', '-', 'x', '/']
-    ops = ''
-    for i in range(len(cmds)):
-        if cmds[i] != 0:
-            ops += operations[i] * cmds[i]
-    
-    max_, min_ = solution(n, numbers, list(permutations(ops)))
+    min_result = int(1e9)
+    max_result = -int(1e9)
 
-    print(max_)
-    print(min_)
+    dfs(1, numbers[0], numbers, n)
+
+    print(max_result)
+    print(min_result)
