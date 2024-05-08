@@ -22,6 +22,7 @@ def dfs(i, now, numbers, n):
         if sub > 0:
             sub -= 1
             dfs(i+1, now - numbers[i], numbers, n)
+            sub += 1
         if mul > 0:
             mul -= 1
             dfs(i+1, now * numbers[i], numbers, n)
